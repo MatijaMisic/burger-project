@@ -1,7 +1,6 @@
 import React from 'react';
 import './BuildControl.css'
 const BuildControl = (props) => {
-    console.log(props.disabled);
     return (
         
         <div className="BuildControl">
