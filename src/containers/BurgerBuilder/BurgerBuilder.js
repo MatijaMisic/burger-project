@@ -4,7 +4,7 @@ import "./BurgerBuilder.css";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
-import OrderSummury from "../../components/Burger/OrderSummary/OrderSummury";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from '../../axiosOrders'
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../components/Burger/withErrorHandler/withErrorHandler";
@@ -87,35 +87,17 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    this.setState({ loading: true })
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.price,
-      customerData: {
-        name: 'MAtija',
-        address: {
-          street: 'Beograd',
-          zipcode: '11000',
-          country: 'Serbia'
-        },
-        email: 'maki@maki.com'
-      },
-      deliveryMethod: 'fastest'
-    }
-
-    axios.post('/orderds.json', order)
-      .then((res) => {
-        console.log(res);
-        this.setState({ loading: false, purchasing: false })
-
-
-      })
-      .catch((error) => {
-        this.setState({ loading: false, purchasing: false })
-
-        console.log(error);
-      })
-
+   
+          const queryParams = [];
+          for (let i in this.state.ingredients){
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+          }
+          queryParams.push('price=' + this.state.totalPrice);
+          const queryString = queryParams.join('&');
+          this.props.history.push({
+            pathname:'/checkout',
+            search:queryString
+          })
   }
   render() {
     console.log(this.state.purchasing);
@@ -149,7 +131,7 @@ class BurgerBuilder extends Component {
         </Fragment>
       )
 
-      orderSummary = (<OrderSummury
+      orderSummary = (<OrderSummary
         purchaseCanceled={this.closedModalHandler}
         purchaseContinued={this.purchaseContinueHandler}
         ingredients={this.state.ingredients}

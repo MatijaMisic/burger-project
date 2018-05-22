@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import Button from '../../UI/Button/Button';
 
-const OrderSummury = (props) => {
+const OrderSummary = (props) => {
     const ingredientsSummary = Object.keys(props.ingredients)
     .map((igKey) => {
         return (<li key={igKey}><span className='orderSummury'>{igKey}</span>:{props.ingredients[igKey]}</li>)
@@ -21,4 +21,4 @@ const OrderSummury = (props) => {
     );
 };
 
-export default OrderSummury;
+export default OrderSummary;
